@@ -10,7 +10,9 @@ module TextAnalyser
 
     def init
       @analyser = TextAnalyser::Analyser.new
-      get_user_input
+      if @analyser.redis_running?
+        get_user_input
+      end
     end
 
     default_task :init

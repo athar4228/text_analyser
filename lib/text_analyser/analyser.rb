@@ -22,6 +22,20 @@ module TextAnalyser
       @characters_name
     end
 
+    def redis_running?
+      begin
+        @redis.ping
+        return true
+      rescue Exception => e
+        e.inspect
+        print e.message
+        print "\r\n"
+        print "Please start resque server using 'redis-server --port #{port}' on given port and start application again\r\n"
+        e.message
+        return false
+      end
+    end
+
     def analyse(sentence)
       analyse_words(sentence)
       analyse_characters(sentence)

@@ -23,6 +23,10 @@ RSpec.describe "TextAnalyser:Analyser" do
       expect(subject.characters_name.instance_of? Redis::Namespace).to be(true)
       expect(subject.characters_name.namespace).to eq(:cn)
     end
+
+    it 'should return true if redis-server is running' do
+      expect(subject.redis_running?).to eq(true)
+    end
   end
 
   describe 'analyse statement' do
