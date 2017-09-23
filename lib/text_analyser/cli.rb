@@ -1,5 +1,6 @@
 require 'thor'
 require_relative 'analyser'
+require_relative 'text_formatter'
 
 module TextAnalyser
   class CLI < Thor
@@ -26,7 +27,7 @@ module TextAnalyser
           if TERMINATING_STATEMENTS.include?(statement.downcase)
             break
           else
-            @analyser.analyse statement
+             @analyser.analyse(TextAnalyser::TextFormatter.format(statement))
             print "# "
           end
         end
