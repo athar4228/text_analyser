@@ -3,11 +3,11 @@ require 'text_analyser/analyser'
 
 RSpec.describe "TextAnalyser:Analyser" do
 
-  subject { TextAnalyser::Analyser.new }
   before do
     allow_any_instance_of(TextAnalyser::Analyser).to receive(:port).and_return('4444')
     allow_any_instance_of(TextAnalyser::Analyser).to receive(:host).and_return('127.0.0.1')
   end
+  subject { TextAnalyser::Analyser.new }
 
   describe 'initialise analyser' do
     it 'should return instance of Redis' do

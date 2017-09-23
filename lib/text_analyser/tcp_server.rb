@@ -5,12 +5,13 @@ module TextAnalyser
 
     PATH = '/stats'
 
-    def initialize
+    def initialize(stats_handler)
       begin
         @server = TCPServer.open(host, port)
+        @stats_handler = stats_handler
         render_page
       rescue Errno::ECONNRESET, Errno::EADDRINUSE, Errno::EPIPE => e
-        print "System is unable to connect to 'http://#{host}:#{port}'. Please check settings\r\n"
+        print "System is unable to load the page using url 'http://#{host}:#{port}'. Please check settings\r\n"
       end
     end
 
@@ -18,7 +19,7 @@ module TextAnalyser
       loop do
         Thread.start(@server.accept) do |socket|
           request = socket.gets(PATH)
-          response = "Text Analyser"
+          response = @stats_handler.stats
           socket.print "HTTP/1.1 200 OK\r\n" +
                        "Content-Type: text/plain\r\n" +
                        "Content-Length: #{response.bytesize}\r\n" +

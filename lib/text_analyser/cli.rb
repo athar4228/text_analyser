@@ -2,6 +2,7 @@ require 'thor'
 require_relative 'analyser'
 require_relative 'text_formatter'
 require_relative 'tcp_server'
+require_relative 'stats_handler'
 
 module TextAnalyser
   class CLI < Thor
@@ -13,6 +14,7 @@ module TextAnalyser
     def init
       @analyser = TextAnalyser::Analyser.new
       if @analyser.redis_running?
+        @stats_handler = TextAnalyser::StatsHandler.new(@analyser)
         initialize_tcp_server
         get_user_input
       end
@@ -24,7 +26,7 @@ module TextAnalyser
 
       def initialize_tcp_server
         Thread.new do
-          TextAnalyser::TcpServer.new
+          TextAnalyser::TcpServer.new(@stats_handler)
         end
       end
 
