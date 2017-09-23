@@ -1,4 +1,5 @@
 require 'thor'
+require_relative 'analyser'
 
 module TextAnalyser
   class CLI < Thor
@@ -8,6 +9,7 @@ module TextAnalyser
     desc "Text Analyser", "takes user input and generate stats"
 
     def init
+      @analyser = TextAnalyser::Analyser.new
       get_user_input
     end
 
@@ -22,8 +24,8 @@ module TextAnalyser
           if TERMINATING_STATEMENTS.include?(statement.downcase)
             break
           else
-            print statement
-            print "\r\n # "
+            @analyser.analyse statement
+            print "# "
           end
         end
       end
