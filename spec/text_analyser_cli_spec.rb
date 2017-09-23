@@ -1,6 +1,7 @@
 require 'stringio'
 
 RSpec.describe "TextAnalyser:CLI" do
+
   describe 'display User Input' do
     def capture_name(name)
       $stdin = StringIO.new("Test User\n")

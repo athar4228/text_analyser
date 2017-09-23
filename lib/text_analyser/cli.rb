@@ -1,6 +1,7 @@
 require 'thor'
 require_relative 'analyser'
 require_relative 'text_formatter'
+require_relative 'tcp_server'
 
 module TextAnalyser
   class CLI < Thor
@@ -12,6 +13,7 @@ module TextAnalyser
     def init
       @analyser = TextAnalyser::Analyser.new
       if @analyser.redis_running?
+        initialize_tcp_server
         get_user_input
       end
     end
@@ -19,6 +21,13 @@ module TextAnalyser
     default_task :init
 
     no_tasks do
+
+      def initialize_tcp_server
+        Thread.new do
+          TextAnalyser::TcpServer.new
+        end
+      end
+
       def get_user_input
         print "Please enter any sentence \r\n"
         print "# "
