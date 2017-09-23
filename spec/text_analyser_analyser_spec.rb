@@ -18,15 +18,30 @@ RSpec.describe "TextAnalyser:Analyser" do
       expect(subject.words_name.instance_of? Redis::Namespace).to be(true)
       expect(subject.words_name.namespace).to eq(:wn)
     end
+
+    it 'should return instance of Redis NameSpace :cn' do
+      expect(subject.characters_name.instance_of? Redis::Namespace).to be(true)
+      expect(subject.characters_name.namespace).to eq(:cn)
+    end
   end
 
   describe 'analyse statement' do
-    it 'should save count for each word' do
+    before(:each) do
       subject.redis.flushall
+    end
+
+    it 'should save count for each word' do
       subject.analyse("test with test user")
       expect(subject.words_name.get('test')).to eq('2')
       expect(subject.words_name.get('with')).to eq('1')
       expect(subject.words_name.get('user')).to eq('1')
+    end
+
+    it 'should save count for each character' do
+      subject.analyse("test with test user")
+      expect(subject.characters_name.get('t')).to eq('5')
+      expect(subject.characters_name.get('e')).to eq('3')
+      expect(subject.characters_name.get('s')).to eq('3')
     end
 
     it 'splits sentence into words' do

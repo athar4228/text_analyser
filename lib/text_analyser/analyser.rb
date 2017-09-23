@@ -7,6 +7,7 @@ module TextAnalyser
     def initialize
       @redis = Redis.new(host: host, port: port, thread_safe: true)
       @words_name = Redis::Namespace.new(:wn, redis: @redis)
+      @characters_name = Redis::Namespace.new(:cn, redis: @redis)
     end
 
     def redis
@@ -17,8 +18,13 @@ module TextAnalyser
       @words_name
     end
 
+    def characters_name
+      @characters_name
+    end
+
     def analyse(sentence)
       analyse_words(sentence)
+      analyse_characters(sentence)
     end
 
     def analyse_words(sentence)
@@ -28,8 +34,19 @@ module TextAnalyser
       end
     end
 
+    def analyse_characters(sentence)
+      characters = sentence_to_characters(sentence)
+      characters.each do |character|
+        @characters_name.incrby(character, 1)
+      end
+    end
+
     def sentence_to_words(sentence)
       sentence.split(/[^[[:word:]]]+/)
+    end
+
+    def sentence_to_characters(sentence)
+      sentence.scan /\w/
     end
 
     private
