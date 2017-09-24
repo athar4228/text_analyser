@@ -31,7 +31,8 @@ module TextAnalyser
       end
 
       def get_user_input
-        print "Please enter any sentence \r\n"
+        print "Please enter any sentence you want to analyse\r\n"
+        print "Please enter exit/end in order to terimate the application \r\n"
         print "# "
 
         while statement = $stdin.gets.chomp
