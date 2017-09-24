@@ -15,8 +15,10 @@ module TextAnalyser
 
         @stats_handler = stats_handler
         render_page
-      rescue Errno::ECONNRESET, Errno::EADDRINUSE, Errno::EPIPE => e
-        print "System is unable to load the page using url #{base_url}. Please check settings\r\n"
+      rescue Errno::EADDRINUSE => e
+        print "Server is already running. Please access #{path}"
+      rescue Errno::ECONNRESET, Errno::EPIPE => e
+        print "System is unable to start new server. Please check settings."
       end
     end
 
