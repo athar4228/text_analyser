@@ -66,11 +66,11 @@ module TextAnalyser
     private
 
     def host
-      '127.0.0.1'
+      ENV['REDIS_HOST'] || '127.0.0.1'
     end
 
     def port
-      '5555'
+      ENV['REDIS_PORT'] || '5555'
     end
   end
 end

@@ -2,5 +2,42 @@
 
 require "bundler/setup"
 require "text_analyser/cli"
+require 'optparse'
+
+require 'optparse'
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: text_analyser [options]"
+
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-T", "--tcp [PORT]", Integer, "Run TCP Server") do |port|
+    ENV['TCP_PORT'] = port.to_s
+  end
+
+  opts.on("-H", "--thost [HOST]", String, "Run TCP server on specified host") do |host|
+    ENV['TCP_HOST'] = host
+  end
+
+  opts.on("-p", "--rport [PORT]", Integer, "Run Redis Server (Make sure redis-server is running on the port specified) ") do |port|
+    ENV['REDIS_PORT'] = port.to_s
+  end
+
+  opts.on("-r", "--rhost [HOST]", String, "Run Redis server on specified host") do |host|
+    ENV['REDIS_HOST'] = host
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+
+  opts.on_tail('-v', "--version", "Show version") do
+    puts TextAnalyser::VERSION
+    exit
+  end
+
+end.parse!
 
 TextAnalyser::CLI.start
