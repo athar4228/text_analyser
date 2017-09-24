@@ -28,12 +28,14 @@ RSpec.describe "TextAnalyser:StatsHandler" do
     end
 
     it 'should return stats based on the details in redis' do
-      sentence_1 = "my name is David. David is a good man"
-      sentence_2 = "david lives in America. I also live in America"
+      sentence_1 = "hello, im boy"
+      sentence_2 = "hello u fine"
       @analyser.analyse(TextAnalyser::TextFormatter.format(sentence_1))
       @analyser.analyse(TextAnalyser::TextFormatter.format(sentence_2))
-      stats = {"count":18,"top_5_words":["david", "is", "in", "america", "my"],"top_5_characters":["a","i","d","m","v"]}
+
+      stats = {"count":6,"top_5_words":["hello", "u", "fine", "boy", "im"],"top_5_characters":["l", "e", "o", "i", "h"]}
       response = JSON.parse(subject.stats)
+
       expect(response["count"]).to be == stats[:count]
 
       response["top_5_words"].each do |word|
