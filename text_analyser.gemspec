@@ -35,5 +35,10 @@ Gem::Specification.new do |spec|
     * A Ruby library for analysing sentences
     * A Ruby library for generating stats
     * A TCP server to shows stats.
+
+  It provides an http interface at /stats to 
+  review stats based on data present in redis
+  It provides an http interface at /stats to 
+  review stats based on data present in redis
 description
 end
