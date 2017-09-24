@@ -4,6 +4,8 @@ module TextAnalyser
 
   class StatsHandler
 
+    TOP_LIMIT = 5
+
     def initialize(analyser)
       @analyser = analyser
     end
@@ -33,11 +35,11 @@ module TextAnalyser
     end
 
     def get_top_words
-      ordered_words_list.last(5).collect{|k| k[0]}.reverse
+      ordered_words_list.last(TOP_LIMIT).collect{|k| k[0]}.reverse
     end
 
     def get_top_characters
-      ordered_characters_list.last(5).collect{|k| k[0]}.reverse
+      ordered_characters_list.last(TOP_LIMIT).collect{|k| k[0]}.reverse
     end
 
     def ordered_words_list
